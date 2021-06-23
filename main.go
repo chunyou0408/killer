@@ -19,9 +19,9 @@ func initSetting() {
 	exit = make(chan string)
 	// 用來呼叫另一方啟動警急任務
 	sos = make(chan string)
-	// 老闆傳給仲介任務資料
+	// 老闆傳給仲介任務資料頻道
 	todoNormal = make(chan int)
-	//
+	// 殺手殺掉上層的頻道
 	killtopCh = make(chan *killtop)
 	// 一般任務頻道
 	normalContractCh = make(chan *normalContract)

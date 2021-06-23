@@ -74,7 +74,7 @@ func (a *Assassin) running() {
 
 		case em := <-a.emergencyNotifyChan:
 			fmt.Println(a.name, ":收到緊急任務,殺掉", em.name)
-			fmt.Println(a.name, ":擊殺成功,取得獎金", em.money)
+			fmt.Println(a.name, ":擊殺成功,取得獎金", em.money,"美金")
 			exit <- "GG"
 		}
 	}
