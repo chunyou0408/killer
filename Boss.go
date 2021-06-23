@@ -27,7 +27,7 @@ type Boss struct {
 	killtopCh           chan *killtop
 }
 
-func NewBoss(name string, sos chan string, todoNormal chan int, emergencyNotifyCh chan *emergencyMsg, killtop chan *killtop) {
+func NewBoss(name string, sos chan string, todoNormal chan int, emergencyNotifyCh chan *emergencyMsg, killtopCh chan *killtop) {
 	b := &Boss{
 		name:                name,
 		sosChan:             sos,

@@ -21,7 +21,6 @@ type killtop struct {
 
 // KillHighLevelPerson 幹掉上層
 func (a *Assassin) KillHighLevelPerson() {
-	killtopCh = make(chan *killtop)
 	kill := &killtop{
 		name: a.name,
 	}
