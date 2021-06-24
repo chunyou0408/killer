@@ -58,11 +58,11 @@ func (a *Assassin) running() {
 	for {
 		select {
 		case no := <-a.normalContractChan:
-			// fmt.Println(a.name, ":收到任務,編號", no.mission_number, "判斷真偽中...")
+			fmt.Println(a.name, ":收到任務,編號", no.mission_number, "判斷真偽中...")
 			time.Sleep(time.Millisecond * 1)
 			if no.mission_real {
 				a.normalmissioncomplete++
-				fmt.Println(a.name, ":任務",no.mission_number,"為真,執行任務 目前任務次數:", a.normalmissioncomplete)
+				fmt.Println(a.name, ":任務", no.mission_number, "為真,執行任務 目前任務次數:", a.normalmissioncomplete)
 				if a.normalmissioncomplete >= 20 {
 					fmt.Println(a.name, "任務都做完了,殺掉上層")
 					a.KillHighLevelPerson()
@@ -73,8 +73,9 @@ func (a *Assassin) running() {
 
 		case em := <-a.emergencyNotifyChan:
 			fmt.Println(a.name, ":收到緊急任務,殺掉", em.name)
-			fmt.Println(a.name, ":擊殺成功,取得獎金", em.money,"美金")
+			fmt.Println(a.name, ":擊殺成功,取得獎金", em.money, "美金")
 			exit <- "GG"
+			return
 		}
 	}
 }
