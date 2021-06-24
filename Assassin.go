@@ -8,15 +8,15 @@ import (
 
 // Assassin 殺手
 type Assassin struct {
-	name                  string
-	emergencyNotifyChan   chan *emergencyMsg
-	normalContractChan    chan *normalContract
-	normalmissioncomplete int
-	killtopCh             chan *killtop
+	name                  string               // 名稱
+	emergencyNotifyChan   chan *emergencyMsg   // 緊急任務頻道
+	normalContractChan    chan *normalContract // 一般任務頻道
+	normalmissioncomplete int                  // 任務完成數目
+	killtopChan           chan *killtop        // 殺手殺掉上層的發送頻道
 }
 type killtop struct {
-	name    string
-	dieName string
+	name    string // 殺手名稱
+	dieName string // 要殺的上層名稱
 }
 
 // KillHighLevelPerson 幹掉上層
@@ -36,7 +36,7 @@ func (a *Assassin) KillHighLevelPerson() {
 	}
 
 	fmt.Println(a.name, "殺掉", kill.dieName)
-	a.killtopCh <- kill
+	a.killtopChan <- kill
 }
 
 // NewAssassin
@@ -47,7 +47,7 @@ func NewAssassin(name string, normalContract chan *normalContract, emergencyNoti
 		normalmissioncomplete: 0,
 		normalContractChan:    normalContract,
 		emergencyNotifyChan:   emergencyNotifyCh,
-		killtopCh:             killtopCh,
+		killtopChan:           killtopCh,
 	}
 
 	go a.running()

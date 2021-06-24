@@ -7,12 +7,12 @@ import (
 
 // Intermediary 仲介
 type Intermediary struct {
-	name                string
-	todoNormal          chan int
-	sosChan             chan string
-	emergencyNotifyChan chan *emergencyMsg
-	normalContractChan  chan *normalContract
-	killtopCh           chan *killtop
+	name                string               //名稱
+	todoNormal          chan int             //正確的任務編號
+	sosChan             chan string          // 當被殺時,最後一刻傳送求救訊號給另一個人
+	emergencyNotifyChan chan *emergencyMsg   // 緊急任務頻道
+	normalContractChan  chan *normalContract // 一般任務頻道
+	killtopChan         chan *killtop        // 殺手殺掉上層的發送頻道
 }
 
 func NewIntermediary(name string, sos chan string, normalContract chan *normalContract, todoNormal chan int, emergencyNotifyCh chan *emergencyMsg, killtopCh chan *killtop) {
@@ -22,7 +22,7 @@ func NewIntermediary(name string, sos chan string, normalContract chan *normalCo
 		todoNormal:          todoNormal,
 		normalContractChan:  normalContract,
 		emergencyNotifyChan: emergencyNotifyCh,
-		killtopCh:           killtopCh,
+		killtopChan:         killtopCh,
 	}
 
 	go i.running()
@@ -48,14 +48,14 @@ func (a *Intermediary) running() {
 				a.normalContractChan <- no
 			}
 
-		case kill := <-a.killtopCh:
+		case kill := <-a.killtopChan:
 			if kill.dieName == "Intermediary" {
 				fmt.Println(a.name, ":我死了,被", kill.name, "殺死了")
 				fmt.Println(a.name, "發送支援給老闆")
 				a.sosChan <- kill.name
 				return
 			} else {
-				a.killtopCh <- kill
+				a.killtopChan <- kill
 			}
 
 		case name := <-a.sosChan:
